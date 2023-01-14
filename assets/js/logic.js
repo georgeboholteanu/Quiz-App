@@ -1,18 +1,5 @@
-var timeCount = document.getElementById("time");
-var startBtn = document.getElementById("start");
-var startScr = document.getElementById("start-screen");
-var questions = document.getElementById("questions");
-var questionTitle = document.getElementById("question-title");
-var choices = document.getElementById("choices");
-var reply = document.createElement("p");
-var replyIt = document.createElement("i");
-var hr = document.createElement("hr");
-var endScr = document.getElementById("end-screen");
-var finalScore = document.getElementById("final-score");
-
-replyIt.style.color = "grey";
-
-var questionnaire = [{
+var questionnaire = [
+    {
         question: "Commonly used data types DO NOT include:",
         options: ["1. strings", "2. booleans", "3. alerts", "4. numbers"],
         solution: "3. alerts"
@@ -34,15 +21,40 @@ var questionnaire = [{
         solution: "4. console.log"
     }
 ]
+var timeCount = document.getElementById("time");
+var startBtn = document.getElementById("start");
+var startScr = document.getElementById("start-screen");
+var questions = document.getElementById("questions");
+var questionTitle = document.getElementById("question-title");
+var choices = document.getElementById("choices");
+var reply = document.createElement("p");
+var replyIt = document.createElement("i");
+var hr = document.createElement("hr");
+var endScr = document.getElementById("end-screen");
+var finalScore = document.getElementById("final-score");
+
+replyIt.style.color = "grey";
+
+
 
 startBtn.addEventListener("click", function() {
 
-    timeCount.innerHTML = "75";
+    timeCount.innerHTML = "5";
     startScr.style.display = "none";    
     questions.style.display = "block";
 
     var score =  0;
     var index = 0;    
+
+    var x = setInterval(function() {
+        timeCount.innerHTML = parseInt(timeCount.innerHTML) - 1;
+         // If the count down is finished show the score   
+         if (timeCount.innerHTML < 1) {
+            clearInterval(x); 
+            questions.style.display = "none";            
+            endScr.style.display = "block";           
+        }
+    }, 1000);
 
     const renderQuestion = () => {    
         var item = questionnaire[index];      
@@ -67,13 +79,13 @@ startBtn.addEventListener("click", function() {
         var newButtons = document.querySelectorAll('.optBtn');
         newButtons.forEach((btn) => {    
             addClickListener(btn, handleNext);              
-        })
-
+        })          
     }
+
     
     const addClickListener = (btn, listener) => {
         if (btn) btn.addEventListener('click', listener);
-      };
+    };
     
     const removeClickListener = (btn, listener) => {
     if (btn) btn.removeEventListener('click', listener);
@@ -83,15 +95,15 @@ startBtn.addEventListener("click", function() {
         e.preventDefault();        
 
         if (index < questionnaire.length - 1) {
-          index++;
-          renderQuestion();
+        index++;
+        renderQuestion();
         } else {
-          questions.style.display = 'none';
-          endScr.style.display = 'block';   
-          finalScore.textContent = score;       
+        questions.style.display = 'none';
+        endScr.style.display = 'block';   
+        finalScore.textContent = score;       
         }
-      };
-      
+    };    
+
     localStorage.setItem("score", score);
     renderQuestion();
 }); // end of eventListener
