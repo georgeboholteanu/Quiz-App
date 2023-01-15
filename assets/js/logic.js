@@ -38,20 +38,12 @@ var initials = document.getElementById("initials");
 replyIt.style.color = "grey";
 
 
-
-startBtn.addEventListener("click", function() {   
-
-    timeCount.innerHTML = "75";
-    
+startBtn.addEventListener("click", function() {
+    timeCount.innerHTML = "75";    
     startScr.style.display = "none";    
     questions.style.display = "block";
-    var user = {
-        "name":"" ,
-        "score":0
-    };
 
-
-    // var score =  0;
+    var score = 0; 
     var index = 0;    
       
     var x = setInterval(function() {
@@ -67,9 +59,7 @@ startBtn.addEventListener("click", function() {
     const renderQuestion = () => {    
            
         var item = questionnaire[index]; 
-        user = JSON.parse(localStorage.getItem("user"));
-        console.log(user);
-        
+             
 
         // Clean-up since we are removing the DOM
         removeClickListener(questions.querySelector('.optBtn'), handleNext);
@@ -91,8 +81,9 @@ startBtn.addEventListener("click", function() {
             if(btn.innerHTML === item.solution) {
                 btn.style.color = "black";
                 btn.addEventListener("click", function() {
-                user.score = parseInt(user.score) + 10;
-                localStorage.setItem("user", JSON.stringify(user));                       
+                score = parseInt(score) + 10;
+
+                localStorage.setItem("score", JSON.stringify(score));                       
 
                 });
             }           
@@ -125,23 +116,36 @@ startBtn.addEventListener("click", function() {
         } else {
         questions.style.display = 'none';
         endScr.style.display = 'block';   
-        finalScore.textContent = user.score;             
+        finalScore.textContent = score;             
         }
     };
     
     submit.addEventListener("click", function(event) {
         event.preventDefault();
-        user.name = initials.value.trim();
-        user.score = parseInt(finalScore.textContent);
-        localStorage.setItem("user", JSON.stringify(user));
+              
+        let user = {};
+        let userName = initials.value.trim();
+        user[userName] = score;
+        
+        // store existing highscores to array
+        var storedValues = JSON.parse(localStorage.getItem("highscores"));
 
-        console.log(user);
+        // append current user to array
+        if (storedValues === null){
+            storedValues = [];
+            storedValues.push(user);
+            localStorage.setItem("highscores", JSON.stringify(storedValues));  
+        }else{
+            storedValues.push(user);
+            localStorage.setItem("highscores", JSON.stringify(storedValues));  
+        }     
+
     });
 
-    localStorage.setItem("user", JSON.stringify(user));    
     renderQuestion();
 
 }); // end of startEventListener
+
 
 
 
