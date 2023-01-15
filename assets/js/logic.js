@@ -32,20 +32,28 @@ var replyIt = document.createElement("i");
 var hr = document.createElement("hr");
 var endScr = document.getElementById("end-screen");
 var finalScore = document.getElementById("final-score");
+var submit = document.getElementById("submit");
+var initials = document.getElementById("initials");
 
 replyIt.style.color = "grey";
 
 
 
-startBtn.addEventListener("click", function() {
+startBtn.addEventListener("click", function() {   
 
-    timeCount.innerHTML = "5";
+    timeCount.innerHTML = "75";
+    
     startScr.style.display = "none";    
     questions.style.display = "block";
+    var user = {
+        "name":"" ,
+        "score":0
+    };
 
-    var score =  0;
+
+    // var score =  0;
     var index = 0;    
-
+      
     var x = setInterval(function() {
         timeCount.innerHTML = parseInt(timeCount.innerHTML) - 1;
          // If the count down is finished show the score   
@@ -57,13 +65,14 @@ startBtn.addEventListener("click", function() {
     }, 1000);
 
     const renderQuestion = () => {    
-        var item = questionnaire[index];      
-
-        score = localStorage.getItem("score");
+           
+        var item = questionnaire[index]; 
+        user = JSON.parse(localStorage.getItem("user"));
+        console.log(user);
+        
 
         // Clean-up since we are removing the DOM
         removeClickListener(questions.querySelector('.optBtn'), handleNext);
-        // removeClickListener(questions.querySelector('.optBtn'), handleSubmit);
         
         questions.innerHTML = `
             <h2 id="question-title">${item.question}</h2>
@@ -77,14 +86,30 @@ startBtn.addEventListener("click", function() {
     
         // Re-associate the listener
         var newButtons = document.querySelectorAll('.optBtn');
-        newButtons.forEach((btn) => {    
-            addClickListener(btn, handleNext);              
-        })          
-    }
 
+        newButtons.forEach((btn) => {   
+            if(btn.innerHTML === item.solution) {
+                btn.style.color = "black";
+                btn.addEventListener("click", function() {
+                user.score = parseInt(user.score) + 10;
+                localStorage.setItem("user", JSON.stringify(user));                       
+
+                });
+            }           
+            addClickListener(btn, handleNext);                        
+                     
+        });       
+      
+    }
     
     const addClickListener = (btn, listener) => {
-        if (btn) btn.addEventListener('click', listener);
+        if (btn) {
+            btn.addEventListener('click', listener);
+
+            // if(btn.innerHTML !== item.solution) {
+            //     timeCount.innerHTML = parseInt(timeCount.innerHTML) - 10;
+            // }
+        }
     };
     
     const removeClickListener = (btn, listener) => {
@@ -100,13 +125,23 @@ startBtn.addEventListener("click", function() {
         } else {
         questions.style.display = 'none';
         endScr.style.display = 'block';   
-        finalScore.textContent = score;       
+        finalScore.textContent = user.score;             
         }
-    };    
+    };
+    
+    submit.addEventListener("click", function(event) {
+        event.preventDefault();
+        user.name = initials.value.trim();
+        user.score = parseInt(finalScore.textContent);
+        localStorage.setItem("user", JSON.stringify(user));
 
-    localStorage.setItem("score", score);
+        console.log(user);
+    });
+
+    localStorage.setItem("user", JSON.stringify(user));    
     renderQuestion();
-}); // end of eventListener
+
+}); // end of startEventListener
 
 
 
