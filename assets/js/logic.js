@@ -34,7 +34,11 @@ var endScr = document.getElementById("end-screen");
 var finalScore = document.getElementById("final-score");
 var submit = document.getElementById("submit");
 var initials = document.getElementById("initials");
+var aTag = document.createElement("a");
 
+aTag.setAttribute("href", "highscores.html");
+initials.parentNode.insertBefore(aTag, initials.nextSibling);
+aTag.appendChild(submit);
 replyIt.style.color = "grey";
 
 
@@ -42,6 +46,8 @@ startBtn.addEventListener("click", function() {
     timeCount.innerHTML = "75";    
     startScr.style.display = "none";    
     questions.style.display = "block";
+
+
 
     var score = 0; 
     var index = 0;    
@@ -58,8 +64,7 @@ startBtn.addEventListener("click", function() {
 
     const renderQuestion = () => {    
            
-        var item = questionnaire[index]; 
-             
+        var item = questionnaire[index];              
 
         // Clean-up since we are removing the DOM
         removeClickListener(questions.querySelector('.optBtn'), handleNext);
@@ -120,6 +125,7 @@ startBtn.addEventListener("click", function() {
         }
     };
     
+    // add click event to SUMBIT button
     submit.addEventListener("click", function(event) {
         event.preventDefault();
               
@@ -139,6 +145,9 @@ startBtn.addEventListener("click", function() {
             storedValues.push(user);
             localStorage.setItem("highscores", JSON.stringify(storedValues));  
         }     
+        console.log(JSON.parse(localStorage.getItem("highscores")));
+
+        document.location.href = 'highscores.html';        
 
     });
 
