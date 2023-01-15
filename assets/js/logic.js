@@ -91,7 +91,11 @@ startBtn.addEventListener("click", function() {
                 localStorage.setItem("score", JSON.stringify(score));                       
 
                 });
-            }           
+            }else{
+                btn.addEventListener("click", function() {
+                    timeCount.innerHTML = parseInt(timeCount.innerHTML) - 10;
+                }); 
+            }         
             addClickListener(btn, handleNext);                        
                      
         });       
@@ -121,7 +125,10 @@ startBtn.addEventListener("click", function() {
         } else {
         questions.style.display = 'none';
         endScr.style.display = 'block';   
-        finalScore.textContent = score;             
+        finalScore.textContent = score;
+        var timeNow = timeCount.innerHTML;
+        clearInterval(x); 
+        timeCount.innerHTML = timeNow;              
         }
     };
     
@@ -147,7 +154,7 @@ startBtn.addEventListener("click", function() {
         }     
         console.log(JSON.parse(localStorage.getItem("highscores")));
 
-        document.location.href = 'highscores.html';        
+        // document.location.href = 'highscores.html';        
 
     });
 
