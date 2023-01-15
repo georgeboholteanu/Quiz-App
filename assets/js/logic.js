@@ -39,7 +39,7 @@ aTag.setAttribute("href", "highscores.html");
 initials.parentNode.insertBefore(aTag, initials.nextSibling);
 aTag.appendChild(submit);
 
-
+// show if the user answer is correct or wrong 
 const renderSolution = (answerType) =>{
     var divTag = document.createElement("div");
     var pTag = document.createElement("p");
@@ -72,6 +72,7 @@ startBtn.addEventListener("click", function() {
         }
     }, 1000);
 
+    // show each set question and answers
     const renderQuestion = () => {
 
         var item = questionnaire[index];              
@@ -94,8 +95,7 @@ startBtn.addEventListener("click", function() {
         
         newButtons.forEach((btn) => {   
             if(btn.innerHTML === item.solution) {
-                btn.style.color = "black";
-                
+                // btn.style.color = "black";                
                 btn.addEventListener("click", function() {  
                     renderSolution("Correct!");            
                     score = parseInt(score) + 10;
