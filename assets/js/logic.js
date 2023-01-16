@@ -65,20 +65,8 @@ const renderSolution = (answerType) => {
     iTag.innerHTML = answerType;
 };   
  
-  
-// let x = setInterval(function() {
-//     timeCount.innerHTML = parseInt(timeCount.innerHTML) - 1;
-//      // If the count down is finished show the score   
-//      if (timeCount.innerHTML < 1) {
-//         clearInterval(x); 
-//         questions.style.display = "none";            
-//         endScr.style.display = "block";           
-//     }
-// }, 1000);
 
 // show each set question and answers
-
-
 const renderQuestion = () => {
 
     let item = questionnaire[index];              
@@ -148,7 +136,8 @@ const handleNext = e => {
         finalScore.textContent = score;
         var timeNow = timeCount.innerHTML;
         clearInterval(x); 
-        timeCount.innerHTML = timeNow;   
+        timeCount.innerHTML = timeNow; 
+        feedback.style.display = 'none';         
                
     }        
 };
@@ -180,13 +169,28 @@ submit.addEventListener("click", function(event) {
 });
 
 
+// add click event to START button
 startBtn.addEventListener("click", function() {
     timeCount.innerHTML = "75";    
     startScr.style.display = "none";    
     questions.style.display = "block";   
-
+    startTime();
     renderQuestion();
+}); 
 
-}); // end of startEventListener
+
+// set timer
+function startTime() {
+    x = setInterval(function() {
+        timeCount.innerHTML = parseInt(timeCount.innerHTML) - 1;
+
+        // If the countdown is finished show the score   
+        if (timeCount.innerHTML < 1) {
+            clearInterval(x); 
+            questions.style.display = "none";            
+            endScr.style.display = "block";
+        }    
+    }, 1000);
+}
 
 
