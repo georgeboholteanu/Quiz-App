@@ -46,7 +46,7 @@ pTag.appendChild(iTag);
 
 let score = 0; 
 let index = 0;  
-
+let resultsFound = JSON.parse(localStorage.getItem("topScores"));
 
 // play audio after answer is selected
 function playSound(){
@@ -59,6 +59,33 @@ function playSound(){
     }
 }
 
+function showHighscores() {
+    document.location.href = 'highscores.html'; 
+    // let highscoresList = document.getElementById("highscores");
+    // resultsFound = JSON.parse(localStorage.getItem("topScores"));
+
+    // console.log(JSON.parse(localStorage.getItem("topScores")));
+
+
+    // if (resultsFound) {
+    //     // reading local stored values and adding them to highscoresList
+    //     // const renderHighscores = () => {
+        
+    //         console.log(resultsFound);
+        
+    //         resultsFound.forEach(element => {
+    //             let liEl = document.createElement("li");
+    //             liEl.textContent = (Object.keys(element) + " - " + Object.values(element));
+    //             highscoresList.appendChild(liEl);  
+    //         });
+    //     // }
+    // }else{
+    //     console.log("No users found!"); 
+             
+    // }  
+
+    // renderHighscores();
+}
 
 // show if the user answer is correct or wrong 
 const renderSolution = (answerType) => {    
@@ -113,15 +140,18 @@ const renderQuestion = () => {
     
 }
 
+
 const addClickListener = (btn, listener) => {
     if (btn) {
         btn.addEventListener('click', listener);
     }
 };
 
+
 const removeClickListener = (btn, listener) => {
 if (btn) btn.removeEventListener('click', listener);
 };
+
 
 const handleNext = e => {
     e.preventDefault();        
@@ -137,34 +167,39 @@ const handleNext = e => {
         var timeNow = timeCount.innerHTML;
         clearInterval(x); 
         timeCount.innerHTML = timeNow; 
-        feedback.style.display = 'none';         
+        // feedback.style.display = 'none';                
                
     }        
 };
 
+
 // add click event to SUMBIT button
 submit.addEventListener("click", function(event) {
     event.preventDefault();
-          
-    let user = {};
-    let userName = initials.value.trim();
-    user[userName] = score;
     
-    // store existing highscores to array
-    var storedValues = JSON.parse(localStorage.getItem("topScores"));
+    if (initials.value.trim().length < 4 && initials.value.trim() !== "") {
 
-    // append current user to array
-    if (storedValues === null){
-        storedValues = [];
-        storedValues.push(user);
-        localStorage.setItem("topScores", JSON.stringify(storedValues));  
+        let user = {};
+        let userName = initials.value.trim();
+        user[userName] = score;
+        
+        // append current user to local storage data
+        if (!resultsFound){
+            resultsFound = [];
+            resultsFound.push(user);
+            localStorage.setItem("topScores", JSON.stringify(resultsFound));  
+        }else{
+            resultsFound.push(user);
+            localStorage.setItem("topScores", JSON.stringify(resultsFound));  
+        }         
+
+        document.location.href = 'highscores.html';
+        // console.log(resultsFound);
+        
+
     }else{
-        storedValues.push(user);
-        localStorage.setItem("topScores", JSON.stringify(storedValues));  
-    }     
-    console.log(JSON.parse(localStorage.getItem("topScores")));
-
-    document.location.href = 'highscores.html';        
+        alert("Please enter valid initials! Max 3 characters.");
+    }   
 
 });
 
