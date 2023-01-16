@@ -26,9 +26,9 @@ if (resultsFound) {
 
 // clear highscores list
 clearHighscores = addEventListener("click", () => {    
-    localStorage.clear();
+    window.localStorage.clear();
     highscores.innerHTML = "";    
-    console.log(JSON.parse(localStorage.getItem("topScores")));
+    resultsFound = [];    
     
 });
 
@@ -39,4 +39,3 @@ aTag = addEventListener("click", () => {
     document.location.href = 'index.html';
 
 });
-

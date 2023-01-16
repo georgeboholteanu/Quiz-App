@@ -1,5 +1,17 @@
 # Quiz App with Multiple Selections
 
+## Moch-up
+
+The following image shows the web application's appearance and functionality:
+
+&nbsp;
+
+#### ** Demo **
+
+![Quiz-App-Mochup](./assets/images/08-web-apis-challenge-demo.gif)
+
+&nbsp;
+
 ## Description
 
 * This app is a timed multiple-choice that offers an interractive quiz to test JavaScript knowledge. For each correct answer to a question the user gets 10 points. If the user selects the wrong answer, 10 seconds will be deducted from the allocated time.
@@ -28,18 +40,6 @@
     * logic.js
     * scores.js 
 
-
-&nbsp;
-
-## Moch-up
-
-The following image shows the web application's appearance and functionality:
-
-&nbsp;
-
-#### ** Demo **
-
-![Quiz-App-Mochup](./assets/images/08-web-apis-challenge-demo.gif)
 
 &nbsp;
 

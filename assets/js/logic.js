@@ -228,4 +228,3 @@ function startTime() {
     }, 1000);
 }
 
-
