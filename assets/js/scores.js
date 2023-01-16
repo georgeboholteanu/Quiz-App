@@ -28,7 +28,7 @@ if (resultsFound) {
 clearHighscores = addEventListener("click", () => {    
     window.localStorage.clear();
     highscores.innerHTML = "";    
-    resultsFound = [];    
+    // resultsFound = [];    
     
 });
 
